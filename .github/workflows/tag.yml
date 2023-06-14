@@ -1,0 +1,26 @@
+name: Create/Update Tag
+on:
+  workflow_dispatch:
+    inputs:
+      tag-name:
+        type: choice
+        description: Tag name
+        required: true
+        options:
+          - dr-latest
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Create/Update Tag Version
+        uses: rickstaa/action-create-tag@v1
+        with:
+          tag: ${{ inputs.tag-name }}
+          force_push_tag: true
+      - name: Updated Tag
+        run: |
+          echo "Successful update ${{ inputs.tag-name }} tag"
+
